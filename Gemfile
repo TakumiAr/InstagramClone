@@ -19,10 +19,10 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'faker'
 gem 'dotenv-rails'
-
-#gem 'pry-rails'
-#gem 'better_errors'
-#gem 'binding_of_caller'
+gem 'letter_opener_web'
+gem 'pry-rails'
+gem 'better_errors'
+gem 'binding_of_caller'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

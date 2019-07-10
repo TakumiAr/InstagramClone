@@ -21,6 +21,7 @@ class PicturesController < ApplicationController
   def create
     @picture = current_user.pictures.build(picture_params)
     if @picture.save
+      ContactMailer.contact_mail(@picture).deliver
       redirect_to pictures_path, notice: "記事を投稿しました！"
     else
       render 'index'

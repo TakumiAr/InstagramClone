@@ -1,3 +1,8 @@
+<div class="contentprof">
+  <%= image_tag current_user.icon.url, width: 150, class: "prof" %>
+  <%= current_user.name %>
+</div>
+
 <div class="contents_image2">
   <% @pictures.reverse_each do |picture| %>
     <div class="contents_image3">

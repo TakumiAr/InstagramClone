@@ -8,10 +8,9 @@
     <br>
     <div class="btn-group" role="group" aria-label="...">
       <table>
-        <td><%= link_to "Details", picture_path(@picture.id), class: "btn btn-link" %></td>
 
         <% if @picture.user_id == session[:user_id] %>
-          <td>/<%= link_to "Edit", edit_picture_path(@picture.id), class: "btn btn-link", data: { confirm: '本当に編集しますか？' } %>/</td>
+          <td><%= link_to "Edit", edit_picture_path(@picture.id), class: "btn btn-link", data: { confirm: '本当に編集しますか？' } %>/</td>
           <td><%= link_to 'Delete', picture_path(@picture.id), class: "btn btn-link", method: :delete, data: { confirm: '本当に削除しますか？' } %>/</td>
         <% end %>
 
