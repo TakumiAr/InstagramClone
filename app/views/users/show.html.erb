@@ -1,0 +1,22 @@
+
+<%= image_tag 'instagram_profile2.png', height:55, class:"profile_top" %>
+
+<p><%= image_tag @user.icon.url, width: 200 %></p>
+<p>メールアドレス: <%= @user.email %></p>
+
+<% if @user.email == current_user.email %>
+  <%= link_to "Edit　", edit_user_path(@user.id), data: { confirm: '本当に編集しますか？' } %>
+<% end %>
+<%= link_to 'Back', pictures_path %><br>
+
+<%= image_tag 'instagram_favorites.png', height:45, class:"favorites_top" %><br>
+
+<div class="contents_image2">
+  <% current_user.favorites.each do |picture| %>
+    <div class="contents_image3">
+      <%= link_to picture_path(picture.picture.id) do %>
+        <%= image_tag picture.picture.image.url, size: 200, class: "img-responsive" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

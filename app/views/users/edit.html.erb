@@ -1,0 +1,10 @@
+<div class="igsignup">
+  <%= form_with(model: @user, local: true) do |f| %>
+
+    <%= f.label :icon %>
+    <%= f.file_field :icon %>
+  <br><br>
+    <%= f.submit "Update my account" %>
+  <br><br>
+  <% end %>
+</div>

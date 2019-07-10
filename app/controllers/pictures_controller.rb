@@ -1,19 +1,29 @@
 class PicturesController < ApplicationController
   before_action :set_picture, only: [:show, :edit, :update, :destroy]
+
   def index
-    @pictures = Picture.all
+    if current_user.present?
+      @pictures = Picture.all
+    else
+      flash[:notice] = "ログインしてください！"
+      redirect_to new_session_path
+    end
   end
 
   def new
-    @picture = Picture.new
+    if params[:back]
+      @picture = Picture.new(picture_params)
+    else
+      @picture = Picture.new
+    end
   end
 
   def create
-    @picture = Picture.new(picture_params)
+    @picture = current_user.pictures.build(picture_params)
     if @picture.save
-      redirect_to pictures_path, notice: "ブログを作成しました！"
+      redirect_to pictures_path, notice: "記事を投稿しました！"
     else
-      render 'new'
+      render 'index'
     end
   end
 
@@ -21,6 +31,10 @@ class PicturesController < ApplicationController
   end
 
   def edit
+    if @picture.user_id == session[:user_id]
+      else
+        redirect_to pictures_path, notice: "他のユーザーの記事は編集できません！"
+    end
   end
 
   def update
@@ -31,15 +45,24 @@ class PicturesController < ApplicationController
     end
   end
 
+  def confirm
+    @picture = current_user.pictures.build(picture_params)
+    render :new if @picture.invalid?
+  end
+
   def destroy
-    @picture.destroy
-    redirect_to pictures_path, notice:"ブログを削除しました！"
+    if @picture.user_id == session[:user_id]
+      @picture.destroy
+      redirect_to pictures_path, notice:"記事を削除しました！ "
+      else
+        redirect_to pictures_path, notice: "他のユーザーの記事は削除できません！"
+    end
   end
 
   private
 
   def picture_params
-    params.require(:picture).permit(:title, :content)
+    params.require(:picture).permit(:image, :image_cache, :content)
   end
 
   def set_picture

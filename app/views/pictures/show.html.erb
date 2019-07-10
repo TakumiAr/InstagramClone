@@ -1,3 +1,30 @@
-<h1>ブログ詳細画面</h1>
-<p>タイトル: <%= @picture.title %></p>
-<p>内容: <%= @picture.content %></p>
+<div class="igcontent">
+  <div class="igcontent_text">
+    <div class="igcontent_info">
+      <p id="igcontent_name"><%= @picture.user.name %></p>
+      <p id="igcontent_time"><%= @picture.created_at %></p>
+    </div>
+    <%= @picture.content %>
+    <br>
+    <div class="btn-group" role="group" aria-label="...">
+      <table>
+        <td><%= link_to "Details", picture_path(@picture.id), class: "btn btn-link" %></td>
+
+        <% if @picture.user_id == session[:user_id] %>
+          <td>/<%= link_to "Edit", edit_picture_path(@picture.id), class: "btn btn-link", data: { confirm: '本当に編集しますか？' } %>/</td>
+          <td><%= link_to 'Delete', picture_path(@picture.id), class: "btn btn-link", method: :delete, data: { confirm: '本当に削除しますか？' } %>/</td>
+        <% end %>
+
+        <% @favorite = current_user.favorites.find_by(picture_id: @picture.id) %>
+
+          <% if @favorite.present? %>
+            <td><%= link_to 'Cancel favorite', favorite_path(id: @favorite.id), method: :delete, class: 'btn link' %></td>
+          <% else %>
+            <td><%= link_to 'Favorite', favorites_path(picture_id: @picture.id), method: :post, class: 'btn link' %></td>
+          <% end %>
+
+      </table>
+    </div>
+  </div>
+  <%= image_tag @picture.image.url %><br><br><br>
+</div>

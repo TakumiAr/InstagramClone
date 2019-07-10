@@ -6,9 +6,73 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag('instagram_favi.ico') %>
   </head>
 
+  <header>
+    <div class="container-fluid">
+      <%= link_to pictures_path do %>
+        <%= image_tag 'instagram_logo.png', height:45 %>
+      <% end %>
+      <%= link_to pictures_path do %>
+        <%= image_tag 'InstagramClone.png', class:"logo", height:70 %>
+      <% end %>
+      <% if logged_in? %>
+        <p class="header_right"><%= current_user.name %></p>
+      <% end %>
+  </header>
+
   <body>
-    <%= yield %>
+    <% flash.each do |key, value| %>
+      <%= content_tag(:div, value, class: "#{key}") %><br>
+    <% end %>
+    <div class="insta_body">
+      <%= yield %>
+    </div>
   </body>
+
+  <footer>
+    <div class="container">
+      <% if logged_in? %>
+        <ul class="row">
+          <li class="col-xs-3 col-sm-3 col-md-3">
+            <%= link_to pictures_path do %>
+              <%= image_tag 'instagram_home.png', height:45 %>
+            <% end %>
+          </li>
+
+          <li class="col-xs-3 col-sm-3 col-md-3">
+            <%= link_to new_picture_path do %>
+              <%= image_tag 'instagram_new.png', height:45 %>
+            <% end %>
+          </li>
+
+          <li class="col-xs-3 col-sm-3 col-md-3">
+            <%= link_to user_path(current_user.id) do %>
+              <%= image_tag 'instagram_profile.png', height:45 %>
+            <% end %>
+          </li>
+
+          <li class="col-xs-3 col-sm-3 col-md-3">
+            <%= link_to session_path(current_user.id), method: :delete do%>
+              <%= image_tag 'instagram_logout.png', height:45 %>
+            <% end %>
+          </li>
+        </ul>
+      <% else %>
+        <ul class="row">
+          <li class="col-xs-6 col-sm-6 col-md-6">
+            <%= link_to new_user_path do %>
+              <%= image_tag 'instagram_sign_up.png', height:45 %>
+            <% end %>
+          </li>
+
+          <li class="col-xs-6 col-sm-6 col-md-6">
+            <%= link_to new_session_path do %>
+              <%= image_tag 'instagram_log_in.png', height:45 %>
+            <% end %>
+          </li>
+      <% end %>
+    </div>
+  </footer>
 </html>
